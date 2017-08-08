@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 26
@@ -8,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0-alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -20,11 +22,32 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    // Butterknife UI View injector
+    compile 'com.jakewharton:butterknife:8.6.0'
+    apt 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    // Dagger
+    apt 'com.google.dagger:dagger-compiler:2.5'
+    compile 'com.google.dagger:dagger:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'io.reactivex:rxjava:1.1.8'
+    compile 'io.reactivex:rxandroid:1.2.1'
+
+    // QR decoder encoder
+    compile 'com.google.zxing:core:3.3.0'
+
+    // Firebase components
+    compile 'com.google.firebase:firebase-core:11.0.4'
+    compile 'com.google.firebase:firebase-auth:11.0.4'
 }
+apply plugin: 'com.google.gms.google-services'
