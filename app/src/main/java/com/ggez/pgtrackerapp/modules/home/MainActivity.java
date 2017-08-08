@@ -1,6 +1,5 @@
 package com.ggez.pgtrackerapp.modules.home;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ggez.pgtrackerapp.BaseActivity;
