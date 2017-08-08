@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">PG Tracker App</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+
+    <!--ProgressDialog messages-->
+    <string name="logging_in">Logging in&#8230;</string>
+    <string name="registering">Registering&#8230;</string>
+    <string name="processing">Processing&#8230;</string>
+
+    <!--Error Messages-->
+    <string name="error_invalid">Invalid</string>
+    <string name="error_invalid_email">Invalid email</string>
+    <string name="error_invalid_password">Password must be between 6 and 50 character long and include at least one numeric character.</string>
+    <string name="error_password_not_match">Password doesn\'t match.</string>
 </resources>

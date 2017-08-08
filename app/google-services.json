@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "387482321222",
+    "firebase_url": "https://dps-hackathon.firebaseio.com",
+    "project_id": "dps-hackathon",
+    "storage_bucket": "dps-hackathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387482321222:android:01353494ec834a85",
+        "android_client_info": {
+          "package_name": "com.ggez.pgtrackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387482321222-7dq37tci59ru2o745l5da6v5929j8h86.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ggez.pgtrackerapp",
+            "certificate_hash": "fb171202328a48467ffe45d11f4baf286dd9d6ec"
+          }
+        },
+        {
+          "client_id": "387482321222-b1cf9k2fusv026uh72kaie128q2epgdo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPzOu9psewxm7rVZYkzD62lHFpv6c4Pas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387482321222-b1cf9k2fusv026uh72kaie128q2epgdo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
