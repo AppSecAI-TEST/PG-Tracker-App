@@ -46,4 +46,13 @@ public class BaseActivity extends AppCompatActivity {
 //            }
 //        };
     }
+
+    /**
+     * Logout user
+     */
+    public void userLogout(){
+        mFirebaseAuth.signOut();
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
 }
