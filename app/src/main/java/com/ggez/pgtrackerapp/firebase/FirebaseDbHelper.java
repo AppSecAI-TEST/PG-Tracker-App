@@ -36,9 +36,9 @@ public class FirebaseDbHelper {
      * @param name   String
      * @param email  String
      */
-    public void writeNewUser(String userId, String name, String email) {
+    public void writeNewUser(String userId, String name, String email, int employeeType) {
 //        User user = new User(name, email);
-        User user = new User(name, email, "");
+        User user = new User(name, email, employeeType, "");
         databaseReference.child(Constants.FBDB_USERS).child(userId).setValue(user);
     }
 

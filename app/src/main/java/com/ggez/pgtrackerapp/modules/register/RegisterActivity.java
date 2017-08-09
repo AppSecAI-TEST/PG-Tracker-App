@@ -134,8 +134,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                                 eventBundle.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, "password_auth");
                                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, eventBundle);
                                 new FirebaseDbHelper().writeNewUser(mFirebaseAuth.getCurrentUser().getUid(),
-                                        mFirebaseAuth.getCurrentUser().getDisplayName(),
-                                        mFirebaseAuth.getCurrentUser().getEmail());
+                                        mFirebaseAuth.getCurrentUser().getEmail().substring(0,
+                                                mFirebaseAuth.getCurrentUser().getEmail().indexOf('@')),
+                                        mFirebaseAuth.getCurrentUser().getEmail(),
+                                        spinnerEmployee.getSelectedItemPosition());
                                 finish();
                             } else {
                                 Toast.makeText(this, "FirebaseAuth user is NULL. " + Validator.getAuthErrorMessage(task), Toast.LENGTH_SHORT).show();
