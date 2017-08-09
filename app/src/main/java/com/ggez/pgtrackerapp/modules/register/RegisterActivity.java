@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.firebase.FirebaseDbHelper;
 import com.ggez.pgtrackerapp.models.EmployeeType;
 import com.ggez.pgtrackerapp.utils.Validator;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -132,6 +133,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                                 Bundle eventBundle = new Bundle();
                                 eventBundle.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, "password_auth");
                                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, eventBundle);
+                                new FirebaseDbHelper().writeNewUser(mFirebaseAuth.getCurrentUser().getUid(),
+                                        mFirebaseAuth.getCurrentUser().getDisplayName(),
+                                        mFirebaseAuth.getCurrentUser().getEmail());
                                 finish();
                             } else {
                                 Toast.makeText(this, "FirebaseAuth user is NULL. " + Validator.getAuthErrorMessage(task), Toast.LENGTH_SHORT).show();
