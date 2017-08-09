@@ -55,12 +55,8 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.0.4'
     compile 'com.google.firebase:firebase-messaging:11.0.4'
     compile 'com.google.firebase:firebase-invites:11.0.4'
-<<<<<<< HEAD
     compile 'com.google.firebase:firebase-database:11.0.4'
     compile 'com.google.firebase:firebase-storage:11.0.4'
-=======
-
->>>>>>> 1fce9a259fab5baf8cd25bda71f7ff604ae3a1b6
     compile 'com.android.support:design:26.0.0-alpha1'
 }
 apply plugin: 'com.google.gms.google-services'
