@@ -2,6 +2,7 @@ package com.ggez.pgtrackerapp.modules.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -20,9 +21,13 @@ import com.ggez.pgtrackerapp.modules.home.MainActivity;
 import com.ggez.pgtrackerapp.modules.profile.ProfileActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
+import com.ggez.pgtrackerapp.qr.decoder.IntentResult;
 import com.ggez.pgtrackerapp.utils.Validator;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -104,12 +109,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void hideSoftInput(View view) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @OnClick(R.id.btn_login)
     void onClickLogin() {
+//        startActivity(new Intent(this, QRActivity.class));
         hideSoftInput(btnLogin);
         clearTilErrors();
         boolean error = false;
@@ -150,5 +156,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         clearTilErrors();
 //        new IntentIntegrator(this).initiateScan(-1);
         startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (scanResult != null) {
+            String url = scanResult.getContents();
+            Pattern pattern = Pattern.compile("http://([a-z0-9]*.)example.com");
+            if(!pattern.matcher(url).matches()) Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_SHORT).show();
+            else startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            Log.i(TAG, "getFormatName: " + scanResult.getFormatName() + " getContents: " + url);
+        }
     }
 }
