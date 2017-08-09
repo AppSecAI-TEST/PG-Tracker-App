@@ -52,6 +52,7 @@ dependencies {
     // Firebase components
     compile 'com.google.firebase:firebase-core:11.0.4'
     compile 'com.google.firebase:firebase-auth:11.0.4'
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
     compile 'com.android.support:design:26.0.0-alpha1'
 }
 apply plugin: 'com.google.gms.google-services'

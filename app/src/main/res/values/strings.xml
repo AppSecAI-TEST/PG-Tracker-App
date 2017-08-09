@@ -8,6 +8,13 @@
     <string name="register">Register</string>
     <string name="logout">Logout</string>
 
+
+    <string name="eat">Eat</string>
+    <string name="history">History</string>
+    <string name="qr">Create QR</string>
+    <string name="menu">Create Menu</string>
+
+
     <!--ProgressDialog messages-->
     <string name="logging_in">Logging in&#8230;</string>
     <string name="registering">Registering&#8230;</string>
