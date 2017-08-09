@@ -17,6 +17,7 @@ import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.home.MainActivity;
+import com.ggez.pgtrackerapp.modules.profile.ProfileActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.utils.Validator;
@@ -108,41 +109,44 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @OnClick(R.id.btn_login)
-    void onClickLogin() {
-        hideSoftInput(btnLogin);
-        clearTilErrors();
-        boolean error = false;
-        if (!Validator.isEmailValid(etEmail.getText().toString())) {
-            error = true;
-            setUsernameError();
-        }
-        if (!Validator.isPasswordValid(etPassword.getText().toString())) {
-            error = true;
-            setPasswordError();
-        }
-        if (!error) {
-            FirebaseAuth.getInstance().signOut();   // sign-out anonymous user
-            showProgress(getString(R.string.logging_in));
-            mFirebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                    .addOnCompleteListener(this, task -> {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                        hideProgress();
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            FirebaseAuth.getInstance().signInAnonymously();   // sign-in failed. sign-in as anonymous user again
-                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Bundle eventBundle = new Bundle();
-                            eventBundle.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, "password_auth");
-                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, eventBundle);
-                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(this, MainActivity.class));
-                            finish();
-                        }
-                    });
-        }
+    void onClickLogin(){
+        startActivity(new Intent(this, ProfileActivity.class));
     }
+//    void onClickLogin() {
+//        hideSoftInput(btnLogin);
+//        clearTilErrors();
+//        boolean error = false;
+//        if (!Validator.isEmailValid(etEmail.getText().toString())) {
+//            error = true;
+//            setUsernameError();
+//        }
+//        if (!Validator.isPasswordValid(etPassword.getText().toString())) {
+//            error = true;
+//            setPasswordError();
+//        }
+//        if (!error) {
+//            FirebaseAuth.getInstance().signOut();   // sign-out anonymous user
+//            showProgress(getString(R.string.logging_in));
+//            mFirebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
+//                    .addOnCompleteListener(this, task -> {
+//                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+//
+//                        hideProgress();
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+//                            FirebaseAuth.getInstance().signInAnonymously();   // sign-in failed. sign-in as anonymous user again
+//                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Bundle eventBundle = new Bundle();
+//                            eventBundle.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, "password_auth");
+//                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, eventBundle);
+//                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(this, MainActivity.class));
+//                            finish();
+//                        }
+//                    });
+//        }
+//    }
 
     @OnClick(R.id.btn_register)
     void onClickRegister() {
