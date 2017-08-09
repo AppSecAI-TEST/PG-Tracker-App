@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PG Tracker App</string>
+    <string name="dynamic_link_domain">xn83k.app.goo.gl</string>
 
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -8,12 +9,10 @@
     <string name="register">Register</string>
     <string name="logout">Logout</string>
 
-
     <string name="eat">Eat</string>
     <string name="history">History</string>
     <string name="qr">Create QR</string>
     <string name="menu">Create Menu</string>
-
 
     <!--ProgressDialog messages-->
     <string name="logging_in">Logging in&#8230;</string>
@@ -25,4 +24,10 @@
     <string name="error_invalid_email">Invalid email</string>
     <string name="error_invalid_password">Password must be between 6 and 50 character long and include at least one numeric character.</string>
     <string name="error_password_not_match">Password doesn\'t match.</string>
+
+    <string-array name="employee_type">
+        <item>Admin</item>
+        <item>Employee</item>
+        <item>Vendor</item>
+    </string-array>
 </resources>
