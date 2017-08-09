@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.login.LoginActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ public class BaseActivity extends AppCompatActivity {
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");
             startActivity(new Intent(this, LoginActivity.class));
+//            startActivity(new Intent(this, QRActivity.class));
         }
 //        FirebaseAuth.AuthStateListener mAuthListener = firebaseAuth -> {
 //            FirebaseUser user = firebaseAuth.getCurrentUser();

@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".modules.login.LoginActivity"/>
         <activity android:name=".modules.register.RegisterActivity"/>
+        <activity android:name=".modules.QRActivity"/>
     </application>
 
 </manifest>
