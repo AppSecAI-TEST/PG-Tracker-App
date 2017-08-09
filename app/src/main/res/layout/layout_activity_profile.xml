@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:text="@string/qr"
-        android:visibility="gone"/>
+        />
 
     <Button
         android:id="@+id/btn_menu"
@@ -43,6 +43,6 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:text="@string/menu"
-        android:visibility="gone"/>
+        />
 
 </LinearLayout>

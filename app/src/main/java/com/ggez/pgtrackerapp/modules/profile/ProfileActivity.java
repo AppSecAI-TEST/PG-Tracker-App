@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.eat.EatActivity;
 import com.ggez.pgtrackerapp.modules.history.HistoryActivity;
 import com.ggez.pgtrackerapp.modules.menu.MenuActivity;
@@ -58,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_qr)
     void onClickQr(){
-        startActivity(new Intent(this, QrActivity.class));
+        startActivity(new Intent(this, QRActivity.class));
     }
 
     @OnClick(R.id.btn_menu)
