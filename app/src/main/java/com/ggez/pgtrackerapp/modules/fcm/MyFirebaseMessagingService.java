@@ -11,7 +11,6 @@ import android.util.Log;
 
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.modules.home.MainActivity;
-import com.ggez.pgtrackerapp.modules.profile.ProfileActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -69,7 +68,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
     private void sendNotification(String food1, String food2, String food3) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

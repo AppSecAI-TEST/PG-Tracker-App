@@ -18,7 +18,6 @@ import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.home.MainActivity;
-import com.ggez.pgtrackerapp.modules.profile.ProfileActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.qr.decoder.IntentResult;
@@ -154,20 +153,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.btn_register)
     void onClickRegister() {
         clearTilErrors();
-//        new IntentIntegrator(this).initiateScan(-1);
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanResult != null) {
-            String url = scanResult.getContents();
-            Pattern pattern = Pattern.compile("http://([a-z0-9]*.)example.com");
-            if(!pattern.matcher(url).matches()) Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_SHORT).show();
-            else startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-            Log.i(TAG, "getFormatName: " + scanResult.getFormatName() + " getContents: " + url);
-        }
-    }
+
 }

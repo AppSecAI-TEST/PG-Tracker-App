@@ -20,11 +20,6 @@
         </activity>
         <activity android:name=".modules.login.LoginActivity"/>
         <activity android:name=".modules.register.RegisterActivity"/>
-        <activity android:name=".modules.profile.ProfileActivity"/>
-        <activity android:name=".modules.history.HistoryActivity"/>
-        <activity android:name=".modules.eat.EatActivity"/>
-        <activity android:name=".modules.qr.QrActivity"/>
-        <activity android:name=".modules.menu.MenuActivity"/>
 
         <service
             android:name=".modules.fcm.MyFirebaseMessagingService"
