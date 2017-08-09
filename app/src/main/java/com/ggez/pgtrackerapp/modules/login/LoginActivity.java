@@ -14,14 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.AppController;
-import com.ggez.pgtrackerapp.BaseActivity;
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.home.MainActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
+import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.utils.Validator;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import javax.inject.Inject;
 
@@ -147,6 +147,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @OnClick(R.id.btn_register)
     void onClickRegister() {
         clearTilErrors();
+//        new IntentIntegrator(this).initiateScan(-1);
         startActivity(new Intent(this, RegisterActivity.class));
     }
 }
