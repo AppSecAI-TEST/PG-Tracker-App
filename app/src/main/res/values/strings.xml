@@ -14,6 +14,9 @@
     <string name="qr">Create QR</string>
     <string name="menu">Create Menu</string>
 
+
+    <string name="notif_body">Here\'s the menu for today: </string>
+
     <!--ProgressDialog messages-->
     <string name="logging_in">Logging in&#8230;</string>
     <string name="registering">Registering&#8230;</string>

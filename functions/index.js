@@ -33,8 +33,9 @@ exports.sendNotifications = functions.database.ref('/testNotif').onWrite(event =
   // on how to define a message payload.
   var payload = {
     data: {
-      score: "850",
-      time: "2:45"
+      food1: "Chicken Tinola",
+      food2: "Fried Bangus Belly",
+      food3: "Pork Pochero"
     }
   };
 
