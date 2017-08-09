@@ -12,6 +12,7 @@ public class Constants {
     public static final int RC_SELECT_PHOTO = 1000;
 
     public static final String FBDB_USERS = "users";
+    public static final String FBDB_EMPLOYEE_TYPE = "employeeType";
     public static final String FBDB_USER_PROFILE = "user-profile";
     public static final String FBDB_RATING = "rating";
     public static final String FBDB_RATING_UP = "vote-up";

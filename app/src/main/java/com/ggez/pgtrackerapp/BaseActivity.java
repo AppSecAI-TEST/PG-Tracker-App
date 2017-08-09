@@ -30,6 +30,7 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             // User is signed out
             Log.d(TAG, "onAuthStateChanged:signed_out");
+            finish();
             startActivity(new Intent(this, LoginActivity.class));
 //            startActivity(new Intent(this, QRActivity.class));
         }

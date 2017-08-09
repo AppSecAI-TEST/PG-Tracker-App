@@ -7,14 +7,27 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.firebase.FirebaseDbHelper;
+import com.ggez.pgtrackerapp.models.EmployeeType;
 import com.ggez.pgtrackerapp.utils.Validator;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -42,10 +55,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
     EditText etPasswordConfirm;
     private ProgressDialog mProgressDialog;
 
+    @BindView(R.id.spinner_employee)
+    Spinner spinnerEmployee;
+
     @Inject
     public FirebaseAuth mFirebaseAuth;
     @Inject
     public FirebaseAnalytics mFirebaseAnalytics;
+
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private ArrayList<EmployeeType> employeeTypeList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +78,30 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        employeeTypeList = new ArrayList<>();
+        Query mQueryMatchMaker = databaseReference.child("employeeType");
+        mQueryMatchMaker.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    Log.i(TAG, "datasnapshot key: " + child.getKey() + ", value: " + child.getValue());
+                    EmployeeType employeeType = new EmployeeType();
+                    employeeType.setEmployeeTypeName(child.getKey());
+                    employeeType.setEmployeeTypeId(Integer.parseInt(child.getValue().toString()));
+                    employeeTypeList.add(employeeType);
+
+                    ArrayAdapter<EmployeeType> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, employeeTypeList);
+                    adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                    populateSpinner(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "datasnapshot error " + databaseError);
+            }
+        });
     }
 
     @OnClick(R.id.btn_register)
@@ -90,6 +133,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
                                 Bundle eventBundle = new Bundle();
                                 eventBundle.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, "password_auth");
                                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, eventBundle);
+                                new FirebaseDbHelper().writeNewUser(mFirebaseAuth.getCurrentUser().getUid(),
+                                        mFirebaseAuth.getCurrentUser().getEmail().substring(0,
+                                                mFirebaseAuth.getCurrentUser().getEmail().indexOf('@')),
+                                        mFirebaseAuth.getCurrentUser().getEmail(),
+                                        spinnerEmployee.getSelectedItemPosition());
                                 finish();
                             } else {
                                 Toast.makeText(this, "FirebaseAuth user is NULL. " + Validator.getAuthErrorMessage(task), Toast.LENGTH_SHORT).show();
@@ -150,4 +198,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
         tilPasswordConfirm.setError(null);
     }
 
+    @Override
+    public void populateSpinner(ArrayAdapter arrayAdapter) {
+        spinnerEmployee.setAdapter(arrayAdapter);
+    }
 }

@@ -1,5 +1,7 @@
 package com.ggez.pgtrackerapp.modules.register;
 
+import android.widget.ArrayAdapter;
+
 /**
  * Created by Omar Matthew Reyes on 8/9/2017.
  */
@@ -16,5 +18,7 @@ interface RegisterView {
     void setPasswordConfirmError();
 
     void clearTilErrors();
+
+    void populateSpinner(ArrayAdapter arrayAdapter);
 
 }
