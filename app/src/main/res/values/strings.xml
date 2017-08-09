@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PG Tracker App</string>
     <string name="dynamic_link_domain">xn83k.app.goo.gl</string>
+    <string name="storage_bucket">gs://dps-hackathon.appspot.com</string>
 
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -25,9 +26,4 @@
     <string name="error_invalid_password">Password must be between 6 and 50 character long and include at least one numeric character.</string>
     <string name="error_password_not_match">Password doesn\'t match.</string>
 
-    <string-array name="employee_type">
-        <item>Admin</item>
-        <item>Employee</item>
-        <item>Vendor</item>
-    </string-array>
 </resources>
