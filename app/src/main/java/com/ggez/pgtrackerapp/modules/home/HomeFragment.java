@@ -67,7 +67,8 @@ public class HomeFragment extends Fragment{
         mFirebaseUser  = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser != null) {
             Log.i(TAG, "user " + mFirebaseUser.getUid());
-            if (bundle != null)getUserDetails(bundle.getParcelable(Constants.BUNDLE_USER));
+            if (bundle != null && getActivity().getIntent().hasExtra(Constants.BUNDLE_USER))
+                getUserDetails(bundle.getParcelable(Constants.BUNDLE_USER));
             else getUserDetailsLogin(mFirebaseUser);
         }
 
