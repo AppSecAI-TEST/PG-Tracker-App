@@ -30,4 +30,12 @@
     <string name="error_invalid_password">Password must be between 6 and 50 character long and include at least one numeric character.</string>
     <string name="error_password_not_match">Password doesn\'t match.</string>
 
+    <string-array name="meals_array">
+        <item>Morning Bites</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Afternoon Bites</item>
+        <item>Dinner</item>
+    </string-array>
+
 </resources>
