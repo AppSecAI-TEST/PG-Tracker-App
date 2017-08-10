@@ -125,16 +125,15 @@ public class CreateMenuFragment extends Fragment {
                                     Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
-                                    generateQRCode(dateToday, getMealSelected(mealSelected));
                                 }
                             });
                         } else {
                             Toast.makeText(mainActivity, "Select meal type", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 }
-
+                Log.i(TAG, "generateQRCode");
+                generateQRCode(dateToday, getMealSelected(mealSelected));
             } else {
                 Toast.makeText(mainActivity, "Select food in the list", Toast.LENGTH_SHORT).show();
             }
@@ -195,7 +194,9 @@ public class CreateMenuFragment extends Fragment {
 
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.BUNDLE_FBDL, shortLink.toString());
-                        startActivity(new Intent(getActivity(), QRActivity.class).putExtras(bundle));
+                        Fragment generateQrFragment = new GenerateQrFragment();
+                        generateQrFragment.setArguments(bundle);
+                        mainActivity.changeFragment(generateQrFragment, true);
                     }
                 }).addOnFailureListener(e -> Log.e(TAG, "dynamicLinkBuilder Error: " + e));
     }

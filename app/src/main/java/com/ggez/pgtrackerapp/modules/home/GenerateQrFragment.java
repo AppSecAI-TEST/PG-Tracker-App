@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.qr.encoder.QREncoder;
+import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.zxing.WriterException;
 
 import butterknife.BindView;
@@ -19,6 +20,7 @@ import butterknife.OnClick;
 
 /**
  * Created by katleen on 8/9/17.
+ * Modified by Omar Matthew Reyes
  */
 public class GenerateQrFragment extends Fragment {
 
@@ -39,7 +41,7 @@ public class GenerateQrFragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
 
         try {
-            imageViewQR.setImageBitmap(new QREncoder().encodeAsBitmap("https://www.google.com"));
+            imageViewQR.setImageBitmap(new QREncoder().encodeAsBitmap(getArguments().getString(Constants.BUNDLE_FBDL)));
         } catch (WriterException e) {
             Log.e(TAG, "QR Encode " + e);
         }
@@ -48,7 +50,7 @@ public class GenerateQrFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_ok)
-    void onClickOk(){
+    void onClickOk() {
         mainActivity.changeFragment(new HomeFragment(), false);
     }
 }
