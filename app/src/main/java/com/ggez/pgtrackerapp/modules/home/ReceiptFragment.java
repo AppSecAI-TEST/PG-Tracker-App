@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.models.Food;
 import com.ggez.pgtrackerapp.utils.Constants;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +50,15 @@ public class ReceiptFragment extends Fragment {
 
             System.out.println("FOOD NAME: " + foodSelected.getName());
 
+            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(mainActivity);
+
+
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, foodSelected.getId());
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, foodSelected.getName());
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+
             ImageView foodSelectedImg = (ImageView) view.findViewById(R.id.foodImgReceipt);
             Picasso.with(mainActivity).load(foodSelected.getPhotoUrl()).into(foodSelectedImg);
 
@@ -56,6 +66,15 @@ public class ReceiptFragment extends Fragment {
             foodSelectedName.setText(foodSelected.getName());
 
         }
+
+
+        Button btnClaimed = (Button) view.findViewById(R.id.btn_claimed);
+        btnClaimed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.changeFragment(new HomeFragment(), true);
+            }
+        });
 
         return view;
     }

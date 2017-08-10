@@ -2,78 +2,106 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/background3"
     android:padding="@dimen/activity_horizontal_margin">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <RelativeLayout
         android:layout_marginBottom="30dp"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
 
-        <ImageView
-            android:id="@+id/iv_user_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_user" />
+        <LinearLayout
+            android:background="@color/white"
+            android:alpha="0.6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:paddingStart="@dimen/activity_vertical_margin"
-                android:paddingEnd="@dimen/activity_vertical_margin"
-                android:gravity="center_vertical"
-                android:text="@string/user_name" />
+            <ImageView
+                android:id="@+id/iv_user_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_user" />
 
-            <TextView
-                android:id="@+id/tv_user_email"
+            <LinearLayout
+                android:gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:paddingStart="@dimen/activity_vertical_margin"
-                android:paddingEnd="@dimen/activity_vertical_margin"
-                android:gravity="center_vertical"
-                android:text="@string/user_email" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/activity_vertical_margin"
+                    android:paddingEnd="@dimen/activity_vertical_margin"
+                    android:text="@string/user_name" />
+
+                <TextView
+                    android:id="@+id/tv_user_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/activity_vertical_margin"
+                    android:paddingEnd="@dimen/activity_vertical_margin"
+                    android:text="@string/user_email" />
+            </LinearLayout>
         </LinearLayout>
+    </RelativeLayout>
 
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/btn_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/history"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_eat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/eat"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/menu"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/history"
-        android:visibility="gone" />
+    <!--<com.google.android.gms.ads.AdView-->
+        <!--android:gravity="bottom"-->
+        <!--android:id="@+id/adView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--ads:adSize="BANNER"-->
+        <!--ads:adUnitId="@string/banner_ad_unit_id">-->
+    <!--</com.google.android.gms.ads.AdView>-->
 
-    <Button
-        android:id="@+id/btn_eat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/eat"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btn_menu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/menu"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout" />
 </LinearLayout>

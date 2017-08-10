@@ -7,36 +7,54 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background_blur"
+
     >
 
-    <TextView
-        android:id="@+id/foodNameReceipt"
+    <RelativeLayout
+        android:id="@+id/rl_food"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:text="New Text"
-        android:layout_below="@+id/foodImgReceipt"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_claimed">
 
+        <LinearLayout
+            android:background="@color/white"
+            android:alpha="0.6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/foodNameReceipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:text="New Text"
+            android:layout_below="@+id/foodImgReceipt"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/foodImgReceipt"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:padding="10dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginTop="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_claimed"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="@dimen/textSizeNormal"
         android:text="CLAIMED"
         android:layout_alignParentBottom="true"/>
-
-    <ImageView
-        android:id="@+id/foodImgReceipt"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:padding="10dp"
-        android:src="@mipmap/ic_launcher"
-        android:layout_marginTop="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

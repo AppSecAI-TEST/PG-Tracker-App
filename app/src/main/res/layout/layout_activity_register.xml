@@ -6,7 +6,19 @@
     android:background="@drawable/background2_blur"
     android:padding="@dimen/activity_horizontal_margin">
 
+    <TextView
+        android:id="@+id/tv_enter_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="@dimen/textSizeNormal_2"
+        android:text="@string/sign_up"/>
+
     <LinearLayout
+        android:layout_below="@+id/tv_enter_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -20,13 +32,17 @@
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:hint="@string/email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/textSizeNormal"
+                android:background="@color/white"
+                android:alpha="0.65"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="10dp"
             android:id="@+id/til_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -34,13 +50,17 @@
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:hint="@string/password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textSize="@dimen/textSizeNormal"
+                android:background="@color/white"
+                android:alpha="0.65"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="10dp"
             android:id="@+id/til_password_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -48,24 +68,37 @@
             <EditText
                 android:id="@+id/et_password_confirm"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:hint="@string/password_confirm"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:layout_height="40dp"
+                android:textSize="@dimen/textSizeNormal"
+                android:background="@color/white"
+                android:alpha="0.65"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatSpinner
+            android:layout_marginTop="10dp"
             android:id="@+id/spinner_employee"
             style="@style/Widget.AppCompat.Spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp"
+            android:textSize="@dimen/textSizeNormal"
+            android:background="@color/white"
+            android:alpha="0.65"/>
     </LinearLayout>
 
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/register" />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSizeNormal"
+        android:background="@color/green"
+        android:text="@string/register"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"/>
 </RelativeLayout>

@@ -164,7 +164,7 @@ public class CreateFoodFragment extends Fragment {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mainActivity.changeFragment(new CreateMenuFragment(), true);
             }
         });
 

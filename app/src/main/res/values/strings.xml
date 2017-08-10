@@ -19,6 +19,8 @@
     <string name="menu">Create Menu</string>
     <string name="food">Add Food</string>
 
+    <string name="sign_up">Please enter details below.</string>
+    <string name="select_meal">Please select your meal below.</string>
 
     <string name="notif_body">Here\'s the menu for today: </string>
 

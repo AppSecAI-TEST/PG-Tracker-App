@@ -3,7 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background2_blur"
     android:padding="@dimen/activity_horizontal_margin">
+
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:src="@drawable/logo"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,27 +26,32 @@
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_gray"
-                android:textSize="@dimen/textSizeNormal"/>
+                android:textSize="@dimen/textSizeNormal"
+                android:background="@color/white"
+                android:alpha="0.65"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:textSize="@dimen/textSizeNormal"/>
+                android:textSize="@dimen/textSizeNormal"
+                android:background="@color/white"
+                android:alpha="0.65"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -47,8 +59,13 @@
             android:id="@+id/btn_login"
             android:clickable="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/white"
             android:textSize="@dimen/textSizeNormal"
+            android:background="@color/green"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
             android:text="@string/login" />
     </LinearLayout>
 
@@ -57,7 +74,12 @@
         android:id="@+id/btn_register"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="@color/white"
         android:textSize="@dimen/textSizeNormal"
-        android:text="@string/register" />
+        android:background="@color/green"
+        android:text="@string/register"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"/>
 </RelativeLayout>

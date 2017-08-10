@@ -103,7 +103,7 @@ public class FoodPickerFragment extends Fragment {
                 }
             });
 
-            Button selectMenu = (Button) view.findViewById(R.id.selectMenu);
+            Button selectMenu = (Button) view.findViewById(R.id.select_menu);
             selectMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
