@@ -108,10 +108,10 @@ public class HomeFragment extends Fragment{
         tvUserName.setText(user.getLdap());
         switch (user.getEmployeeType()) {
             case 0:
-                btnEat.setVisibility(View.GONE);
-                btnHistory.setVisibility(View.GONE);
+                btnEat.setVisibility(View.VISIBLE);
+                btnHistory.setVisibility(View.VISIBLE);
                 btnMenu.setVisibility(View.VISIBLE);
-                btnQr.setVisibility(View.GONE);
+                btnQr.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 btnEat.setVisibility(View.VISIBLE);
