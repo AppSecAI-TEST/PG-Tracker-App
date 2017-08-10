@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.google.firebase.firebase-crash'
 
 android {
     compileSdkVersion 26
@@ -10,7 +11,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "0.1.0-alpha"
+        versionName '0.1.2-alpha'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,6 +27,8 @@ android {
     lintOptions {
         abortOnError false
     }
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -34,6 +37,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     // Butterknife UI View injector
@@ -57,6 +61,6 @@ dependencies {
     compile 'com.google.firebase:firebase-invites:11.0.4'
     compile 'com.google.firebase:firebase-database:11.0.4'
     compile 'com.google.firebase:firebase-storage:11.0.4'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.google.firebase:firebase-crash:11.0.4'
 }
 apply plugin: 'com.google.gms.google-services'

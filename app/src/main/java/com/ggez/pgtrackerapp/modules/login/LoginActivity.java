@@ -16,14 +16,22 @@ import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.models.User;
 import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.home.MainActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.qr.decoder.IntentResult;
+import com.ggez.pgtrackerapp.utils.Constants;
 import com.ggez.pgtrackerapp.utils.Validator;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,7 +122,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnClick(R.id.btn_login)
     void onClickLogin() {
-//        startActivity(new Intent(this, QRActivity.class));
         hideSoftInput(btnLogin);
         clearTilErrors();
         boolean error = false;
@@ -136,15 +143,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                         hideProgress();
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            FirebaseAuth.getInstance().signInAnonymously();   // sign-in failed. sign-in as anonymous user again
                             Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                         } else {
                             Bundle eventBundle = new Bundle();
                             eventBundle.putString(FirebaseAnalytics.Param.SIGN_UP_METHOD, "password_auth");
                             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, eventBundle);
                             Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(this, MainActivity.class));
-                            finish();
+                            getUserDetailsLogin(mFirebaseAuth.getCurrentUser(), eventBundle);
                         }
                     });
         }
@@ -156,5 +161,32 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
+    public void getUserDetailsLogin(FirebaseUser mFirebaseUser, Bundle bundle) {
+        final User user = new User();
+        Query mQueryMatchMaker = FirebaseDatabase.getInstance().getReference().child(Constants.FBDB_USERS).child(mFirebaseUser.getUid());
+        mQueryMatchMaker.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user.setLdap(dataSnapshot.child(Constants.FBDB_LDAP).getValue().toString());
+                user.setEmail(dataSnapshot.child(Constants.FBDB_EMAIL).getValue().toString());
+                user.setEmployeeType(Integer.parseInt(dataSnapshot.child(Constants.FBDB_EMPLOYEE_TYPE).getValue().toString()));
+                user.setPhotoUrl(dataSnapshot.child(Constants.FBDB_PHOTO_URL).getValue().toString());
 
+                Log.i(TAG, "onDataChange user ldap: " + user.getLdap());
+                Log.i(TAG, "onDataChange user email: " + user.getEmail());
+                Log.i(TAG, "onDataChange user employeeType: " + user.getEmployeeType());
+                Log.i(TAG, "onDataChange user photoURL: " + user.getPhotoUrl());
+
+                bundle.putParcelable(Constants.BUNDLE_USER, user);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class).putExtras(bundle));
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "getUserDetails " + databaseError);
+                Toast.makeText(getApplicationContext(), "Signin Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

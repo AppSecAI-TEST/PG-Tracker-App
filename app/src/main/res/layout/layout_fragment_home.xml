@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:visibility="gone"
         android:text="@string/history" />
 
     <Button
@@ -35,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:visibility="gone"
         android:text="@string/eat" />
 
     <Button
@@ -42,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:visibility="gone"
         android:text="@string/qr"
         />
 
@@ -49,6 +52,7 @@
         android:id="@+id/btn_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:clickable="true"
         android:text="@string/menu"
         />
@@ -57,5 +61,5 @@
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout" />
+        android:text="@string/logout" />
 </LinearLayout>

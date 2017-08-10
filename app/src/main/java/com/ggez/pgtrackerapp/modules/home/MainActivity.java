@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
 
-        changeFragment(new HomeFragment(), false);
+        changeFragment(new HomeFragment(), true);
     }
 
     /**

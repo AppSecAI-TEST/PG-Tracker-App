@@ -1,10 +1,13 @@
 package com.ggez.pgtrackerapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by katleen on 8/9/17.
  * Modified by Omar Matthew Reyes
  */
-public class User {
+public class User implements Parcelable{
 
     private String ldap;
     private String email;
@@ -52,4 +55,36 @@ public class User {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
+
+    public User(Parcel read) {
+        this.ldap = read.readString();
+        this.email = read.readString();
+        this.employeeType = read.readInt();
+        this.photoUrl = read.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel write, int flags) {
+        write.writeString(this.ldap);
+        write.writeString(this.email);
+        write.writeInt(this.employeeType);
+        write.writeString(this.photoUrl);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR =
+            new Parcelable.Creator<User>() {
+                @Override
+                public User createFromParcel(Parcel source) {
+                    return new User(source);
+                }
+                @Override
+                public User[] newArray(int size) {
+                    return new User[size];
+                }
+            };
 }
