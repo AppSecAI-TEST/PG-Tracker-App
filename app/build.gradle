@@ -36,25 +36,21 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // Butterknife UI View injector
+    // Dagger
+    // QR decoder encoder
+    // Firebase components
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-    // Butterknife UI View injector
     compile 'com.jakewharton:butterknife:8.6.0'
-    apt 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    // Dagger
-    apt 'com.google.dagger:dagger-compiler:2.5'
     compile 'com.google.dagger:dagger:2.5'
-    provided 'javax.annotation:jsr250-api:1.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'io.reactivex:rxjava:1.1.8'
     compile 'io.reactivex:rxandroid:1.2.1'
-    // QR decoder encoder
     compile 'com.google.zxing:android-integration:3.3.0'
     compile 'com.google.zxing:core:3.3.0'
-    // Firebase components
     compile 'com.google.firebase:firebase-core:11.0.4'
     compile 'com.google.firebase:firebase-auth:11.0.4'
     compile 'com.google.firebase:firebase-messaging:11.0.4'
@@ -63,5 +59,11 @@ dependencies {
     compile 'com.google.firebase:firebase-storage:11.0.4'
     compile 'com.google.firebase:firebase-crash:11.0.4'
     compile 'com.firebaseui:firebase-ui-database:1.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.0'
+    compile 'com.android.support:support-v4:26.0.0-alpha1'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.6.0'
+    apt 'com.google.dagger:dagger-compiler:2.5'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
 apply plugin: 'com.google.gms.google-services'
