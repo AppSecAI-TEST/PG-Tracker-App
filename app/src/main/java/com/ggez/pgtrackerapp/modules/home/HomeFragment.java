@@ -113,11 +113,11 @@ public class HomeFragment extends Fragment{
     }
 
     void setUserProfileImage(Uri photo) {
-        Glide.with(this).load(photo).centerCrop().into(ivUserImage);
+        Glide.with(mainActivity).load(photo).centerCrop().into(ivUserImage);
     }
 
     void setUserProfileImage(String photo) {
-        Glide.with(this).load(photo).centerCrop().into(ivUserImage);
+        Glide.with(mainActivity).load(photo).centerCrop().into(ivUserImage);
     }
 
     void loadUserDetails(User user){
