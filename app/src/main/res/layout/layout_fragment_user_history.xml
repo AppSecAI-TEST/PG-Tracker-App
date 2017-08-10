@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv_food"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="USER HISTORY"
         android:layout_marginBottom="30dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/messageRecyclerView"
+    <LinearLayout
+        android:id="@+id/ll_select_date"
+        android:layout_below="@id/tv_food"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_weight="0.8"
+            android:id="@+id/et_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_food"/>
 
-</LinearLayout>
+        <ImageButton
+            android:layout_weight="0.2"
+            android:id="@+id/ib_select_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_calendar"/>
+    </LinearLayout>
+
+
+
+    <!--<DatePicker-->
+        <!--android:id="@+id/dp_history_date"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/tv_food"-->
+        <!--android:datePickerMode="spinner"-->
+        <!--android:calendarViewShown="false"/>-->
+
+    <ListView
+        android:id="@+id/lv_food_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_select_date"/>
+
+</RelativeLayout>
