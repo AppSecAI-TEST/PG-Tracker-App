@@ -7,7 +7,7 @@ admin.initializeApp(functions.config().firebase);
 
 
 // Sends a notifications to all users when a new message is posted.
-exports.sendNotifications = functions.database.ref('/testNotif').onWrite(event => {
+exports.sendNotifications = functions.database.ref('/dailymenu').onWrite(event => {
   const snapshot = event.data;
   // // Only send a notification when a new message has been created.
   // if (snapshot.previous.val()) {

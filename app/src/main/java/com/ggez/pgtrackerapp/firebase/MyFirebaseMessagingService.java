@@ -1,4 +1,4 @@
-package com.ggez.pgtrackerapp.modules.fcm;
+package com.ggez.pgtrackerapp.firebase;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

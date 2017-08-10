@@ -16,6 +16,8 @@ public class Constants {
     public static final String FBDB_EMAIL = "email";
     public static final String FBDB_PHOTO_URL = "photoUrl";
     public static final String FBDB_EMPLOYEE_TYPE = "employeeType";
+    public static final String FBDB_FOOD_HISTORY = "foodhistory";
+    public static final String FBDB_FOOD_MENU = "foodmenu";
     public static final String FBDB_USER_PROFILE = "user-profile";
     public static final String FBDB_RATING = "rating";
     public static final String FBDB_RATING_UP = "vote-up";
