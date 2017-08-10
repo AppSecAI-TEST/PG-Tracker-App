@@ -67,6 +67,9 @@ public class MainActivity extends BaseActivity {
                     }
 
                     // Get the deep link
+                    // Format: https://pgtrackerapp.com/menu/{mmddyyyy}/{meal}
+                    // mmddyyyy dataLink[4]
+                    // meal dataLink[5]
                     Uri deepLink = data.getLink();
                     Log.i(TAG, "Deep Link: " + deepLink);
                     String url = deepLink.toString();
