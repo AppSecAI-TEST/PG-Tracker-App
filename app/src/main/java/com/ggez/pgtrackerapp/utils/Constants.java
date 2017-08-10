@@ -24,4 +24,7 @@ public class Constants {
 
     public static final String BUNDLE_USER = "BUNDLE_USER";
     public static final String BUNDLE_FBDL = "BUNDLE_FBDL";
+    public static final String BUNDLE_DATE = "BUNDLE_DATE";
+    public static final String BUNDLE_MEAL = "BUNDLE_MEAL";
+
 }
