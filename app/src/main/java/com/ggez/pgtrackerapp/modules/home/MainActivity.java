@@ -1,5 +1,6 @@
 package com.ggez.pgtrackerapp.modules.home;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.BaseActivity;
@@ -21,12 +23,14 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 public class MainActivity extends BaseActivity {
     private String TAG = "MainActivity";
     private FragmentManager fragmentManager;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
+        mProgressDialog = new ProgressDialog(this);
 
         changeFragment(new HomeFragment(), true);
         processDeepLink(getIntent());
@@ -46,11 +50,21 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
+    public void showProgress(String msg) {
+        mProgressDialog.setMessage(msg);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+    }
+
+    public void hideProgress() {
+        mProgressDialog.dismiss();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanResult != null) {
+        if (scanResult != null && scanResult.getContents() != null) {
             String url = scanResult.getContents();
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             Log.i(TAG, "getFormatName: " + scanResult.getFormatName() + " getContents: " + url);

@@ -8,6 +8,7 @@ import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.models.User;
 import com.ggez.pgtrackerapp.modules.home.HomeDBInterface;
+import com.ggez.pgtrackerapp.modules.home.MainActivity;
 import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -96,14 +97,14 @@ public class FirebaseDbHelper {
      * @param uri Uri
      * @return Observable<String>
      */
-    public Observable<String> uploadUserProfilePhoto(Uri uri) {
+    public Observable<String> uploadUserProfilePhoto(Uri uri, String userId) {
         return Observable.create(subscriber -> {
             // Create a storage reference from our app
             StorageReference storageRef = storage.getReferenceFromUrl(
                     AppController.getsInstance().getString(R.string.storage_bucket));
 
             // Create a reference to "mountains.jpg"
-            StorageReference imageRef = storageRef.child("images/" + uri.getLastPathSegment());
+            StorageReference imageRef = storageRef.child("user/images/" + userId + "/" + uri.getLastPathSegment());
 
             Log.i(TAG, "uploadUserProfilePhoto Uri to file path " + uri.getLastPathSegment());
 

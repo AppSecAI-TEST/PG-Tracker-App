@@ -10,6 +10,8 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="logout">Logout</string>
+    <string name="user_name">User Name</string>
+    <string name="user_email">User Email</string>
 
     <string name="eat">Eat</string>
     <string name="history">History</string>
@@ -24,6 +26,7 @@
     <string name="logging_in">Logging in&#8230;</string>
     <string name="registering">Registering&#8230;</string>
     <string name="processing">Processing&#8230;</string>
+    <string name="loading">Loading&#8230;</string>
 
     <!--Error Messages-->
     <string name="error_invalid">Invalid</string>
