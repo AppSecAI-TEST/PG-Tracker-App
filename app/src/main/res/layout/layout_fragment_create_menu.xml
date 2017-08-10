@@ -8,4 +8,10 @@
         android:layout_height="wrap_content"
         android:text="CREATE MENU"/>
 
+    <Button
+        android:id="@+id/btn_add_food"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/food"/>
+
 </LinearLayout>
