@@ -3,7 +3,6 @@ package com.ggez.pgtrackerapp.modules.home;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,10 +13,10 @@ import com.ggez.pgtrackerapp.BaseActivity;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.qr.decoder.IntentResult;
+import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
-import java.util.regex.Pattern;
 
 public class MainActivity extends BaseActivity {
     private String TAG = "MainActivity";
@@ -67,8 +66,8 @@ public class MainActivity extends BaseActivity {
                     }
 
                     // Get the deep link
-                    // Format: https://pgtrackerapp.com/menu/{mmddyyyy}/{meal}
-                    // mmddyyyy dataLink[4]
+                    // Format: https://pgtrackerapp.com/menu/{yyyymmdd}/{meal}
+                    // yyyymmdd dataLink[4]
                     // meal dataLink[5]
                     Uri deepLink = data.getLink();
                     Log.i(TAG, "Deep Link: " + deepLink);
@@ -76,7 +75,13 @@ public class MainActivity extends BaseActivity {
                     String[] urlData = url.split("/");
                     for(String dataLink : urlData) Log.i(TAG, "FBDL " + dataLink);
                     Toast.makeText(getApplicationContext(), "Deep Link received: " + deepLink, Toast.LENGTH_SHORT).show();
-//                    changeFragment(new HomeFragment(), true); // go to menu for the day fragment
+                    Bundle bundle = new Bundle();
+                    Log.i(TAG, "Date: " + urlData[4] + ", Meal: " + urlData[5]);
+                    bundle.putString(Constants.BUNDLE_DATE, urlData[4]);
+                    bundle.putString(Constants.BUNDLE_MEAL, urlData[5]);
+                    Fragment foodPickerFragment = new FoodPickerFragment();
+                    foodPickerFragment.setArguments(bundle);
+                    changeFragment(foodPickerFragment, false); // go to menu for the day fragment
 
                     // Extract invite
                     FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(data);

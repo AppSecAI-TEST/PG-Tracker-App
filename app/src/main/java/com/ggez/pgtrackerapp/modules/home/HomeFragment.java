@@ -85,11 +85,6 @@ public class HomeFragment extends Fragment{
         new IntentIntegrator(mainActivity).initiateScan(-1);
     }
 
-    @OnClick(R.id.btn_qr)
-    void onClickQr(){
-        mainActivity.changeFragment(new GenerateQrFragment(),false);
-    }
-
     @OnClick(R.id.btn_menu)
     void onClickMenu(){
         mainActivity.changeFragment(new CreateMenuFragment(),false);
