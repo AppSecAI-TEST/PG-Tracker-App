@@ -73,11 +73,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         ButterKnife.bind(LoginActivity.this);
         AppController.getComponent(this).inject(this);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
         mProgressDialog = new ProgressDialog(this);
     }
 
@@ -157,24 +152,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     void onClickRegister() {
         clearTilErrors();
         startActivity(new Intent(this, RegisterActivity.class));
-        // TODO Add this to create QR code
-//        DynamicLink.Builder fdlBuilder = new DynamicLinkHelper().dynamicLinkBuilder(this, "https://pgtrackerapp.com/menu/0809207/breakfast");
-//        String longFDL = fdlBuilder.buildDynamicLink().getUri().toString();
-//        Log.i(TAG, "dynamicLinkBuilder long FDL: " + longFDL);
-//        fdlBuilder.buildShortDynamicLink()
-//                .addOnCompleteListener(this, task -> {
-//                    if (task.isSuccessful()) {
-//                        // Short link created
-//                        Uri shortLink = task.getResult().getShortLink();
-//                        Uri flowchartLink = task.getResult().getPreviewLink();
-//                        Log.i(TAG, "dynamicLinkBuilder short FDL: " + shortLink.toString());
-//                        Log.i(TAG, "dynamicLinkBuilder preview FDL: " + flowchartLink.toString());
-//
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString(Constants.BUNDLE_FBDL, shortLink.toString());
-//                        startActivity(new Intent(this, QRActivity.class).putExtras(bundle));
-//                    }
-//                }).addOnFailureListener(e -> Log.e(TAG, "dynamicLinkBuilder Error: " + e));
     }
 
     public void getUserDetailsLogin(FirebaseUser mFirebaseUser, Bundle bundle) {
