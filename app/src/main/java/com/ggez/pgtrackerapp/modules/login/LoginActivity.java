@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.models.User;
-import com.ggez.pgtrackerapp.modules.QRActivity;
 import com.ggez.pgtrackerapp.modules.home.MainActivity;
 import com.ggez.pgtrackerapp.modules.register.RegisterActivity;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
@@ -25,6 +24,7 @@ import com.ggez.pgtrackerapp.qr.decoder.IntentResult;
 import com.ggez.pgtrackerapp.utils.Constants;
 import com.ggez.pgtrackerapp.utils.Validator;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,9 +32,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
 import javax.inject.Inject;
 
@@ -44,6 +42,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Omar Matthew Reyes on 8/8/2017.
+ * Login
  */
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
@@ -80,7 +79,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
 
         mProgressDialog = new ProgressDialog(this);
-
     }
 
     @Override
@@ -159,6 +157,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     void onClickRegister() {
         clearTilErrors();
         startActivity(new Intent(this, RegisterActivity.class));
+        // TODO Add this to create QR code
+//        DynamicLink.Builder fdlBuilder = new DynamicLinkHelper().dynamicLinkBuilder(this, "https://pgtrackerapp.com/menu/0809207/breakfast");
+//        String longFDL = fdlBuilder.buildDynamicLink().getUri().toString();
+//        Log.i(TAG, "dynamicLinkBuilder long FDL: " + longFDL);
+//        fdlBuilder.buildShortDynamicLink()
+//                .addOnCompleteListener(this, task -> {
+//                    if (task.isSuccessful()) {
+//                        // Short link created
+//                        Uri shortLink = task.getResult().getShortLink();
+//                        Uri flowchartLink = task.getResult().getPreviewLink();
+//                        Log.i(TAG, "dynamicLinkBuilder short FDL: " + shortLink.toString());
+//                        Log.i(TAG, "dynamicLinkBuilder preview FDL: " + flowchartLink.toString());
+//
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString(Constants.BUNDLE_FBDL, shortLink.toString());
+//                        startActivity(new Intent(this, QRActivity.class).putExtras(bundle));
+//                    }
+//                }).addOnFailureListener(e -> Log.e(TAG, "dynamicLinkBuilder Error: " + e));
     }
 
     public void getUserDetailsLogin(FirebaseUser mFirebaseUser, Bundle bundle) {

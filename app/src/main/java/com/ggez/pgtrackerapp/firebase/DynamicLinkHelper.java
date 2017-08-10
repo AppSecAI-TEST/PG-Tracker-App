@@ -1,4 +1,4 @@
-package com.ggez.pgtrackerapp.utils;
+package com.ggez.pgtrackerapp.firebase;
 
 import android.content.Context;
 import android.net.Uri;

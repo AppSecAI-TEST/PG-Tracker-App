@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".modules.SplashScreenActivity" android:launchMode="singleTask">
+        <activity
+            android:name=".modules.SplashScreenActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -19,9 +21,20 @@
         </activity>
 
 
-        <activity android:name=".modules.home.MainActivity"/>
+        <activity android:name=".modules.home.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="pgtrackerapp.com"
+                    android:pathPrefix="/menu"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity android:name=".modules.login.LoginActivity"/>
-        <activity android:name=".modules.register.RegisterActivity"/>
+        <activity android:name=".modules.register.RegisterActivity" />
 
         <service
             android:name=".modules.fcm.MyFirebaseMessagingService"
@@ -38,7 +51,8 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <activity android:name=".modules.QRActivity"/>
+
+        <activity android:name=".modules.QRActivity" />
     </application>
 
 </manifest>

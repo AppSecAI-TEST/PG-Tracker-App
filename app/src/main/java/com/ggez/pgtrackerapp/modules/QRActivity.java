@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.modules.login.LoginActivity;
 import com.ggez.pgtrackerapp.qr.encoder.QREncoder;
+import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.zxing.WriterException;
 
 import butterknife.BindView;
@@ -34,7 +35,7 @@ public class QRActivity extends AppCompatActivity {
         ButterKnife.bind(QRActivity.this);
 
         try {
-            imageViewQR.setImageBitmap(new QREncoder().encodeAsBitmap("https://www.google.com"));
+            imageViewQR.setImageBitmap(new QREncoder().encodeAsBitmap(getIntent().getExtras().get(Constants.BUNDLE_FBDL).toString()));
         } catch (WriterException e) {
             Log.e(TAG, "QR Encode " + e);
         }
