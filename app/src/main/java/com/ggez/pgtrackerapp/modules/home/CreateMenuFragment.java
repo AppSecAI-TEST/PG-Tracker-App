@@ -1,8 +1,11 @@
 package com.ggez.pgtrackerapp.modules.home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +21,14 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.firebase.DynamicLinkHelper;
 import com.ggez.pgtrackerapp.models.Food;
-import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
-import com.google.firebase.database.DatabaseError;
+import com.ggez.pgtrackerapp.modules.QRActivity;
+import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.dynamiclinks.DynamicLink;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,7 +41,7 @@ import butterknife.OnClick;
  * Created by katleen on 8/9/17.
  */
 public class CreateMenuFragment extends Fragment {
-
+    private final String TAG = "CreateMenuFragment";
     MainActivity mainActivity;
 
     private FirebaseListAdapter<Food> mAdapter;
@@ -63,7 +68,7 @@ public class CreateMenuFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         dateToday = df.format(c.getTime());
 
-        Spinner spinner = (Spinner) view.findViewById(R.id.meal_spinner);
+        Spinner spinner = view.findViewById(R.id.meal_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mainActivity, R.array.meals_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -81,7 +86,7 @@ public class CreateMenuFragment extends Fragment {
             }
         });
 
-        final ListView foodView = (ListView) view.findViewById(R.id.listFood);
+        final ListView foodView = view.findViewById(R.id.listFood);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query foodRefSortbyName = ref.child("foodmenu").orderByChild("name");
 
@@ -100,43 +105,38 @@ public class CreateMenuFragment extends Fragment {
         foodView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         foodView.setAdapter(mAdapter);
 
-        Button createMenu = (Button) view.findViewById(R.id.createMenu);
-        createMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Button createMenu = view.findViewById(R.id.createMenu);
+        createMenu.setOnClickListener(view1 -> {
 
-                SparseBooleanArray checked = foodView.getCheckedItemPositions();
+            SparseBooleanArray checked = foodView.getCheckedItemPositions();
 
-                if (checkSelectedItems(checked)) {
-                    for (int i = 0; i < checked.size(); i++) {
-                        if (checked.valueAt(i) == true) {
-                            int position = checked.keyAt(i);
-                            System.out.println("POSITION SELECTED: " + position);
-                            System.out.println("DATABASE REF OF SELECTED: " + mAdapter.getRef(position).getKey());
+            if (checkSelectedItems(checked)) {
+                for (int i = 0; i < checked.size(); i++) {
+                    if (checked.valueAt(i)) {
+                        int position = checked.keyAt(i);
+                        System.out.println("POSITION SELECTED: " + position);
+                        System.out.println("DATABASE REF OF SELECTED: " + mAdapter.getRef(position).getKey());
 
-
-                            if (getMealSelected(mealSelected) != null) {
-                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-                                rootRef.child("dailymenu").child(dateToday).child(getMealSelected(mealSelected)).child(mAdapter.getRef(position).getKey()).setValue(true, new DatabaseReference.CompletionListener() {
-                                    @Override
-                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                        if (databaseError != null) {
-                                            Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(mainActivity, "Select meal type", Toast.LENGTH_SHORT).show();
-                            }
-
+                        if (getMealSelected(mealSelected) != null) {
+                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                            rootRef.child("dailymenu").child(dateToday).child(getMealSelected(mealSelected))
+                                    .child(mAdapter.getRef(position).getKey()).setValue(true, (databaseError, databaseReference) -> {
+                                if (databaseError != null) {
+                                    Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
+                                    generateQRCode(dateToday, getMealSelected(mealSelected));
+                                }
+                            });
+                        } else {
+                            Toast.makeText(mainActivity, "Select meal type", Toast.LENGTH_SHORT).show();
                         }
-                    }
 
-                } else {
-                    Toast.makeText(mainActivity, "Select food in the list", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+            } else {
+                Toast.makeText(mainActivity, "Select food in the list", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -181,6 +181,22 @@ public class CreateMenuFragment extends Fragment {
 
     }
 
+    void generateQRCode(String date, String meal){
+        DynamicLink.Builder fdlBuilder = new DynamicLinkHelper().dynamicLinkBuilder(getActivity(), "https://pgtrackerapp.com/menu/" + date + "/" + meal);
+        String longFDL = fdlBuilder.buildDynamicLink().getUri().toString();
+        Log.i(TAG, "dynamicLinkBuilder long FDL: " + longFDL);
+        fdlBuilder.buildShortDynamicLink().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Short link created
+                        Uri shortLink = task.getResult().getShortLink();
+                        Uri flowchartLink = task.getResult().getPreviewLink();
+                        Log.i(TAG, "dynamicLinkBuilder short FDL: " + shortLink.toString());
+                        Log.i(TAG, "dynamicLinkBuilder preview FDL: " + flowchartLink.toString());
 
-
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.BUNDLE_FBDL, shortLink.toString());
+                        startActivity(new Intent(getActivity(), QRActivity.class).putExtras(bundle));
+                    }
+                }).addOnFailureListener(e -> Log.e(TAG, "dynamicLinkBuilder Error: " + e));
+    }
 }

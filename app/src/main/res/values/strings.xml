@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PG Tracker App</string>
     <string name="dynamic_link_domain">xn83k.app.goo.gl</string>
+    <string name="deep_link_domain_menu">https://pgtrackerapp.com/menu</string>
     <string name="storage_bucket">gs://dps-hackathon.appspot.com</string>
 
     <string name="email">Email</string>
