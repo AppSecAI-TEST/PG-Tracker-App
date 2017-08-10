@@ -21,4 +21,9 @@
 
     <dimen name="scanner_padding_standard">8dp</dimen>
     <dimen name="scanner_padding_half">4dp</dimen>
+
+    <dimen name="textSizeNormal">16sp</dimen>
+    <dimen name="textSizeNormal_2">18sp</dimen>
+    <dimen name="textSizeNormal_3">20sp</dimen>
+    <dimen name="textSizeNormal_4">24sp</dimen>
 </resources>

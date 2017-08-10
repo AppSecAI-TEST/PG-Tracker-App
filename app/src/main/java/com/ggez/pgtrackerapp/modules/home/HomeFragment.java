@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,8 @@ import butterknife.OnClick;
 public class HomeFragment extends Fragment{
 
     MainActivity mainActivity;
+    FirebaseAuth mFirebaseAuth;
+    FirebaseUser mFirebaseUser;
 
     @BindView(R.id.tv_user_name)
     TextView tvUserName;
@@ -45,6 +49,14 @@ public class HomeFragment extends Fragment{
         View view = inflater.inflate(R.layout.layout_fragment_home, container, false);
         ButterKnife.bind(this, view);
         mainActivity = (MainActivity) getActivity();
+
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser  = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser != null) {
+            tvUserName.setText(mFirebaseUser.getDisplayName());
+        }
+
         return view;
     }
 
