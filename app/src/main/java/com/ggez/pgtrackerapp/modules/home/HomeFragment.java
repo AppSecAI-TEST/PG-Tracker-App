@@ -50,8 +50,6 @@ public class HomeFragment extends Fragment{
     Button btnHistory;
     @BindView(R.id.btn_eat)
     Button btnEat;
-    @BindView(R.id.btn_qr)
-    Button btnQr;
     @BindView(R.id.btn_menu)
     Button btnMenu;
 
@@ -106,19 +104,16 @@ public class HomeFragment extends Fragment{
                 btnEat.setVisibility(View.VISIBLE);
                 btnHistory.setVisibility(View.VISIBLE);
                 btnMenu.setVisibility(View.VISIBLE);
-                btnQr.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 btnEat.setVisibility(View.VISIBLE);
                 btnHistory.setVisibility(View.GONE);
                 btnMenu.setVisibility(View.GONE);
-                btnQr.setVisibility(View.GONE);
                 break;
             case 2:
                 btnEat.setVisibility(View.VISIBLE);
                 btnHistory.setVisibility(View.GONE);
                 btnMenu.setVisibility(View.GONE);
-                btnQr.setVisibility(View.GONE);
                 break;
         }
     }
