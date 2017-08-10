@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanResult != null) {
+        if (scanResult != null && scanResult.getContents() != null) {
             String url = scanResult.getContents();
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             Log.i(TAG, "getFormatName: " + scanResult.getFormatName() + " getContents: " + url);
