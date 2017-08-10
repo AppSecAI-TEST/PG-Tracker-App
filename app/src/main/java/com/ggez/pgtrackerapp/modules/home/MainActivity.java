@@ -1,5 +1,6 @@
 package com.ggez.pgtrackerapp.modules.home;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.BaseActivity;
@@ -21,12 +23,14 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 public class MainActivity extends BaseActivity {
     private String TAG = "MainActivity";
     private FragmentManager fragmentManager;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
+        mProgressDialog = new ProgressDialog(this);
 
         changeFragment(new HomeFragment(), true);
         processDeepLink(getIntent());
@@ -44,6 +48,16 @@ public class MainActivity extends BaseActivity {
         if(clearStack) getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         else fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void showProgress(String msg) {
+        mProgressDialog.setMessage(msg);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.show();
+    }
+
+    public void hideProgress() {
+        mProgressDialog.dismiss();
     }
 
     @Override

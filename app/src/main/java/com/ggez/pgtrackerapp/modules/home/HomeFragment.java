@@ -1,6 +1,7 @@
 package com.ggez.pgtrackerapp.modules.home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.ggez.pgtrackerapp.AppController;
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.firebase.FirebaseDbHelper;
 import com.ggez.pgtrackerapp.models.User;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.utils.Constants;
@@ -28,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Omar Matthew on 8/9/17.
@@ -44,6 +51,8 @@ public class HomeFragment extends Fragment{
 
     @BindView(R.id.tv_user_name)
     TextView tvUserName;
+    @BindView(R.id.tv_user_email)
+    TextView tvUserEmail;
     @BindView(R.id.iv_user_image)
     ImageView ivUserImage;
     @BindView(R.id.btn_history)
@@ -54,6 +63,8 @@ public class HomeFragment extends Fragment{
     Button btnQr;
     @BindView(R.id.btn_menu)
     Button btnMenu;
+
+    private User user;
 
     @Nullable
     @Override
@@ -67,10 +78,18 @@ public class HomeFragment extends Fragment{
         mFirebaseUser  = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser != null) {
             Log.i(TAG, "user " + mFirebaseUser.getUid());
-            if (bundle != null && getActivity().getIntent().hasExtra(Constants.BUNDLE_USER))
-                getUserDetails(bundle.getParcelable(Constants.BUNDLE_USER));
+            if (bundle != null && getActivity().getIntent().hasExtra(Constants.BUNDLE_USER)) {
+                user = bundle.getParcelable(Constants.BUNDLE_USER);
+                loadUserDetails(user);
+            }
             else getUserDetailsLogin(mFirebaseUser);
         }
+
+        ivUserImage.setOnClickListener(view1 -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, Constants.RC_SELECT_PHOTO);
+        });
 
         return view;
     }
@@ -95,12 +114,23 @@ public class HomeFragment extends Fragment{
         mainActivity.userLogout();
     }
 
-    void getUserDetails(User user){
+    void setUserProfileImage(Uri photo) {
+        Glide.with(this).load(photo).centerCrop().into(ivUserImage);
+    }
+
+    void setUserProfileImage(String photo) {
+        Glide.with(this).load(photo).centerCrop().into(ivUserImage);
+    }
+
+    void loadUserDetails(User user){
+        this.user = user;
         Log.i(TAG, "onDataChange user ldap: " + user.getLdap());
         Log.i(TAG, "onDataChange user email: " + user.getEmail());
         Log.i(TAG, "onDataChange user employeeType: " + user.getEmployeeType());
         Log.i(TAG, "onDataChange user photoURL: " + user.getPhotoUrl());
         tvUserName.setText(user.getLdap());
+        tvUserEmail.setText(user.getEmail());
+        setUserProfileImage(user.getPhotoUrl());
         switch (user.getEmployeeType()) {
             case 0:
                 btnEat.setVisibility(View.GONE);
@@ -123,7 +153,47 @@ public class HomeFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RC_SELECT_PHOTO) {
+            if (data != null)
+                try {
+                    Uri imageUri = data.getData();
+                    setUserProfileImage(imageUri);
+                    mainActivity.showProgress(getString(R.string.processing));
+                    new FirebaseDbHelper().uploadUserProfilePhoto(imageUri, mFirebaseUser.getUid()).
+                            observeOn(AndroidSchedulers.mainThread()).
+                            subscribe(new Subscriber<String>() {
+                                @Override
+                                public void onCompleted() {
+                                    mainActivity.hideProgress();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Log.e(TAG, "uploadUserProfilePhoto " + e);
+                                    ivUserImage.setImageResource(R.drawable.ic_user);
+                                    mainActivity.hideProgress();
+                                }
+
+                                @Override
+                                public void onNext(String url) {
+                                    Log.e(TAG, "uploadUserProfilePhoto success " + url);
+                                    mainActivity.hideProgress();
+                                    new FirebaseDbHelper().updateUserDetails(
+                                            mFirebaseUser.getUid(), user.getLdap(),
+                                            url, user.getEmployeeType(), user.getEmail());
+                                }
+                            });
+                } catch (Exception e) {
+                    Toast.makeText(AppController.getsInstance(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
     public void getUserDetailsLogin(FirebaseUser mFirebaseUser) {
+        mainActivity.showProgress(getString(R.string.loading));
         final User user = new User();
         Query mQueryMatchMaker = FirebaseDatabase.getInstance().getReference().child(Constants.FBDB_USERS).child(mFirebaseUser.getUid());
         mQueryMatchMaker.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -133,12 +203,14 @@ public class HomeFragment extends Fragment{
                 user.setEmail(dataSnapshot.child(Constants.FBDB_EMAIL).getValue().toString());
                 user.setEmployeeType(Integer.parseInt(dataSnapshot.child(Constants.FBDB_EMPLOYEE_TYPE).getValue().toString()));
                 user.setPhotoUrl(dataSnapshot.child(Constants.FBDB_PHOTO_URL).getValue().toString());
-                getUserDetails(user);
+                loadUserDetails(user);
+                mainActivity.hideProgress();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "getUserDetails " + databaseError);
+                Log.e(TAG, "loadUserDetails " + databaseError);
+                mainActivity.hideProgress();
             }
         });
     }
