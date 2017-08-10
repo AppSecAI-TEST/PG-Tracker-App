@@ -100,7 +100,7 @@ public class CreateFoodFragment extends Fragment {
                     if (!TextUtils.isEmpty(txtName.getText().toString()) && txtName.getText().toString() != null) {
                         pd.show();
 
-                        Food tmpFood = new Food(txtName.getText().toString(), null);
+                        Food tmpFood = new Food(txtName.getText().toString(), null, null);
 
                         DatabaseReference foodMenuRef = database.getReference().child("foodmenu");
                         foodMenuRef.push().setValue(tmpFood, new DatabaseReference.CompletionListener() {
@@ -120,7 +120,7 @@ public class CreateFoodFragment extends Fragment {
                                                     if (task.isSuccessful()) {
 
                                                         Food foodToInsert = new Food(txtName.getText().toString(), task.getResult().getDownloadUrl()
-                                                                .toString());
+                                                                .toString(), key);
 
                                                         DatabaseReference foodMenuRef = database.getReference().child("foodmenu");
                                                         foodMenuRef.child(key).setValue(foodToInsert);
