@@ -28,6 +28,8 @@ import com.ggez.pgtrackerapp.firebase.AppInviteHelper;
 import com.ggez.pgtrackerapp.models.Food;
 import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +58,8 @@ public class FoodPickerFragment extends Fragment {
     public static final int REQUEST_INVITE = 100;
 
     MainActivity mainActivity;
+    @Inject
+    FirebaseAuth mFirebaseAuth;
 
     private DatabaseReference rootRef;
     private ProgressBar mProgressBar;
@@ -72,6 +78,7 @@ public class FoodPickerFragment extends Fragment {
         View view = inflater.inflate(R.layout.layout_fragment_food_picker, container, false);
         ButterKnife.bind(this, view);
         mainActivity = (MainActivity) getActivity();
+        String userId = mainActivity.mFirebaseAuth.getCurrentUser().getUid();
 
         if (getArguments().containsKey(Constants.BUNDLE_DATE) && getArguments().containsKey(Constants.BUNDLE_MEAL)) {
             Log.i(TAG, "Date: " + getArguments().getString(Constants.BUNDLE_DATE) + ", Meal: " + getArguments().getString(Constants.BUNDLE_MEAL));
@@ -85,37 +92,25 @@ public class FoodPickerFragment extends Fragment {
             mProgressBar = view.findViewById(R.id.progressBar);
 
             rootRef = FirebaseDatabase.getInstance().getReference();
-            rootRef.child("dailymenu").child(dateToday).child(mealType).addValueEventListener(new ValueEventListener() {
+
+            rootRef.child("foodhistory").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    System.out.println("Data: " + dataSnapshot.getValue());
-
-                    final List<Food> dailyMenuList = new ArrayList<Food>();
-                    for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                        System.out.println("Data key: " + snap.getKey());
-
-                        rootRef.child("foodmenu").child(snap.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Food foodDetails = dataSnapshot.getValue(Food.class);
-                                System.out.println("FOOD NAME: " + foodDetails.getName());
-                                dailyMenuList.add(foodDetails);
-                                populateMenu(dailyMenuList, view);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                System.out.println("onCancelled foodmenu");
-                            }
-                        });
-
+                    Log.i(TAG, "has user " + userId + " " + dataSnapshot.hasChild(userId));
+                    Log.i(TAG, "has date " + dateToday + " " + dataSnapshot.child(userId).hasChild(dateToday));
+                    Log.i(TAG, "has meal " + mealType + " " + dataSnapshot.child(userId).child(dateToday).hasChild(mealType));
+                    if(dataSnapshot.hasChild(userId) && dataSnapshot.child(userId).hasChild(dateToday)
+                            && dataSnapshot.child(userId).child(dateToday).hasChild(mealType)){
+                        Toast.makeText(mainActivity, "You already ate " + mealType + " on " + dateToday, Toast.LENGTH_SHORT).show();
+                        mainActivity.changeFragment(new HomeFragment(), true);
+                    } else {
+                        loadData(view);
                     }
-
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    System.out.println("onCancelled dailymenu");
+
                 }
             });
         } else {
@@ -151,6 +146,42 @@ public class FoodPickerFragment extends Fragment {
         if(deepLink != null && !deepLink.equals(""))
             startActivityForResult(new AppInviteHelper().appInviteTemplate(mainActivity, deepLink), REQUEST_INVITE);
         else Toast.makeText(mainActivity, "Deeplink is empty", Toast.LENGTH_SHORT).show();
+    }
+
+    void loadData(View view){
+        rootRef.child("dailymenu").child(dateToday).child(mealType).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Data: " + dataSnapshot.getValue());
+
+                final List<Food> dailyMenuList = new ArrayList<Food>();
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    System.out.println("Data key: " + snap.getKey());
+
+                    rootRef.child("foodmenu").child(snap.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Food foodDetails = dataSnapshot.getValue(Food.class);
+                            System.out.println("FOOD NAME: " + foodDetails.getName());
+                            dailyMenuList.add(foodDetails);
+                            populateMenu(dailyMenuList, view);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("onCancelled foodmenu");
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("onCancelled dailymenu");
+            }
+        });
     }
 
     public void populateMenu(List<Food> dailyFoodMenu, View view) {

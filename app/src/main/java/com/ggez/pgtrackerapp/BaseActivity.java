@@ -13,7 +13,7 @@ import javax.inject.Inject;
 public class BaseActivity extends AppCompatActivity {
     private String TAG = "BaseActivity";
     @Inject
-    FirebaseAuth mFirebaseAuth;
+    public FirebaseAuth mFirebaseAuth;
 
     @Override
     protected void onStart() {
