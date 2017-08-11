@@ -63,6 +63,9 @@ public class FoodPickerFragment extends Fragment {
     private String mealType;
     private String deepLink;
 
+    @BindView(R.id.tv_select)
+    TextView tvHeader;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,6 +78,9 @@ public class FoodPickerFragment extends Fragment {
             dateToday = getArguments().getString(Constants.BUNDLE_DATE);
             mealType = getArguments().getString(Constants.BUNDLE_MEAL);
             deepLink = getArguments().getString(Constants.BUNDLE_DEEPLINK);
+
+            String header = getString(R.string.select_meal) + "\n" + mealType + " for " + dateToday;
+            tvHeader.setText(header);
 
             mProgressBar = view.findViewById(R.id.progressBar);
 
