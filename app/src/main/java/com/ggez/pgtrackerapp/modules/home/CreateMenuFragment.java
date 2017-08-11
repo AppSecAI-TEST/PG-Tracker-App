@@ -118,13 +118,8 @@ public class CreateMenuFragment extends Fragment {
                         if (getMealSelected(mealSelected) != null) {
                             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
                             rootRef.child("dailymenu").child(dateToday).child(getMealSelected(mealSelected))
-                                    .child(mAdapter.getRef(position).getKey()).setValue(true, (databaseError, databaseReference) -> {
-                                if (databaseError != null) {
-                                    Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    .child(mAdapter.getRef(position).getKey()).setValue(true);
+
                         } else {
                             Toast.makeText(mainActivity, "Select meal type", Toast.LENGTH_SHORT).show();
                         }
