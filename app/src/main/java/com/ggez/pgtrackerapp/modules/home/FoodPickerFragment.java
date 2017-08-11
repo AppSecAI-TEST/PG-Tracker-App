@@ -132,7 +132,7 @@ public class FoodPickerFragment extends Fragment {
                 if (databaseError != null) {
                     Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
+                    System.out.println("Successfully saved!");
 
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.BUNDLE_MEAL, foodSelected);
