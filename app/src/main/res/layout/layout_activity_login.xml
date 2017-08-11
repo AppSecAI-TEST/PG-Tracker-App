@@ -2,14 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background2_blur"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:orientation="vertical">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background2_blur"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_horizontal_margin">
 
     <ImageView
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="90dp"
+        android:visibility="gone"
         android:src="@drawable/logo"/>
 
     <LinearLayout
@@ -26,10 +36,12 @@
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/dimen_et_height"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:textColorHint="@color/dark_gray"
                 android:textSize="@dimen/textSizeNormal"
                 android:background="@color/white"
@@ -46,9 +58,11 @@
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/dimen_et_height"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:paddingEnd="@dimen/activity_horizontal_margin"
                 android:textSize="@dimen/textSizeNormal"
                 android:background="@color/white"
                 android:alpha="0.65"/>
@@ -59,7 +73,7 @@
             android:id="@+id/btn_login"
             android:clickable="true"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textColor="@color/white"
             android:textSize="@dimen/textSizeNormal"
@@ -74,7 +88,7 @@
         android:id="@+id/btn_register"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="@dimen/textSizeNormal"
         android:background="@color/green"
@@ -82,4 +96,5 @@
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"/>
+    </RelativeLayout>
 </RelativeLayout>
