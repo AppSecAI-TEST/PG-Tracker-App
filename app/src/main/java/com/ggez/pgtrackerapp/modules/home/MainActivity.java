@@ -8,14 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.BaseActivity;
 import com.ggez.pgtrackerapp.R;
 import com.ggez.pgtrackerapp.qr.decoder.IntentIntegrator;
 import com.ggez.pgtrackerapp.qr.decoder.IntentResult;
 import com.ggez.pgtrackerapp.utils.Constants;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
@@ -33,6 +32,7 @@ public class MainActivity extends BaseActivity {
         mProgressDialog = new ProgressDialog(this);
 
         changeFragment(new HomeFragment(), true);
+        FirebaseAnalytics.getInstance(this);
         processDeepLink(getIntent());
     }
 
