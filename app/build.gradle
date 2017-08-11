@@ -10,8 +10,8 @@ android {
         applicationId "com.ggez.pgtrackerapp"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName '0.2.0-alpha'
+        versionCode 3
+        versionName '0.2.2-alpha'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,8 +37,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Butterknife UI View injector
+
     // Dagger
+
     // QR decoder encoder
+
     // Firebase components
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.0.0-alpha1'

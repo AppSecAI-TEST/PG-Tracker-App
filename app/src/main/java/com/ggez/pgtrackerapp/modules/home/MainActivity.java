@@ -88,11 +88,12 @@ public class MainActivity extends BaseActivity {
                     String url = deepLink.toString();
                     String[] urlData = url.split("/");
                     for(String dataLink : urlData) Log.i(TAG, "FBDL " + dataLink);
-                    Toast.makeText(getApplicationContext(), "Deep Link received: " + deepLink, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Deep Link received: " + deepLink, Toast.LENGTH_SHORT).show();
                     Bundle bundle = new Bundle();
                     Log.i(TAG, "Date: " + urlData[4] + ", Meal: " + urlData[5]);
                     bundle.putString(Constants.BUNDLE_DATE, urlData[4]);
                     bundle.putString(Constants.BUNDLE_MEAL, urlData[5]);
+                    bundle.putString(Constants.BUNDLE_DEEPLINK, url);
                     Fragment foodPickerFragment = new FoodPickerFragment();
                     foodPickerFragment.setArguments(bundle);
                     changeFragment(foodPickerFragment, false); // go to menu for the day fragment
@@ -102,11 +103,11 @@ public class MainActivity extends BaseActivity {
                     if (invite != null) {
                         String invitationId = invite.getInvitationId();
                         Log.i(TAG, "Invitation ID: " + invitationId);
-                        Toast.makeText(getApplicationContext(), "Invitation ID: " + invitationId, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Invitation ID: " + invitationId, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(this, e -> {
-                    Toast.makeText(getApplicationContext(), "Dynamic Link failure: " + e, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Dynamic Link failure: " + e, Toast.LENGTH_SHORT).show();
                     Log.w(TAG, "getDynamicLink:onFailure", e);
                 });
     }

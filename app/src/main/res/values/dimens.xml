@@ -11,7 +11,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dimen_img_user">120dp</dimen>
     <dimen name="dimen_et_padding">8dp</dimen>
-    <dimen name="dimen_et_height">48dp</dimen>
+    <dimen name="dimen_et_height">42dp</dimen>
 
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_matchmaker_height">180dp</dimen>

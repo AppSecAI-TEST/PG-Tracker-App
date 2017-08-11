@@ -18,6 +18,8 @@
     <string name="qr">Generate QR</string>
     <string name="menu">Create Menu</string>
     <string name="food">Add Food</string>
+    <string name="done">Done</string>
+    <string name="share">Share</string>
 
     <string name="sign_up">Please enter details below.</string>
     <string name="select_meal">Please select your meal below.</string>
@@ -43,6 +45,12 @@
         <item>Afternoon Bites</item>
         <item>Dinner</item>
     </string-array>
+
+    <string name="invitation_title">Send PG Tracker Invitation</string>
+    <string name="invitation_message">Let\'s eat in the pantry! Try this app. It makes checking food faster.</string>
+    <string name="invitation_deep_link">https://www.sample.com/invites</string>
+    <string name="invitation_custom_image">https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png</string>
+    <string name="invitation_cta">Install</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -30,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -132,7 +134,7 @@ public class HomeFragment extends Fragment{
         switch (user.getEmployeeType()) {
             case 0:
                 btnEat.setVisibility(View.VISIBLE);
-                btnHistory.setVisibility(View.VISIBLE);
+                btnHistory.setVisibility(View.GONE);
                 btnMenu.setVisibility(View.VISIBLE);
                 break;
             case 1:

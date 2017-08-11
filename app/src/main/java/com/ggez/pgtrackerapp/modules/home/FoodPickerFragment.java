@@ -8,6 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,10 +19,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ggez.pgtrackerapp.R;
+import com.ggez.pgtrackerapp.firebase.AppInviteHelper;
 import com.ggez.pgtrackerapp.models.Food;
 import com.ggez.pgtrackerapp.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,13 +42,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Omar Matthew Reyes on 8/10/17.
+ * Modified by Mariz Salvador
  */
 
 public class FoodPickerFragment extends Fragment {
     private final String TAG = "FoodPickerFragment";
+    public static final int REQUEST_INVITE = 100;
 
     MainActivity mainActivity;
 
@@ -53,6 +61,7 @@ public class FoodPickerFragment extends Fragment {
     private ListView dailyMenuList;
     private String dateToday;
     private String mealType;
+    private String deepLink;
 
     @Nullable
     @Override
@@ -65,8 +74,9 @@ public class FoodPickerFragment extends Fragment {
             Log.i(TAG, "Date: " + getArguments().getString(Constants.BUNDLE_DATE) + ", Meal: " + getArguments().getString(Constants.BUNDLE_MEAL));
             dateToday = getArguments().getString(Constants.BUNDLE_DATE);
             mealType = getArguments().getString(Constants.BUNDLE_MEAL);
+            deepLink = getArguments().getString(Constants.BUNDLE_DEEPLINK);
 
-            mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+            mProgressBar = view.findViewById(R.id.progressBar);
 
             rootRef = FirebaseDatabase.getInstance().getReference();
             rootRef.child("dailymenu").child(dateToday).child(mealType).addValueEventListener(new ValueEventListener() {
@@ -102,36 +112,6 @@ public class FoodPickerFragment extends Fragment {
                     System.out.println("onCancelled dailymenu");
                 }
             });
-
-            Button selectMenu = (Button) view.findViewById(R.id.select_menu);
-            selectMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    if (foodSelected != null) {
-                        rootRef.child("foodhistory").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateToday).child(mealType).setValue(foodSelected.getId(), new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if (databaseError != null) {
-                                    Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
-
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable(Constants.BUNDLE_MEAL, foodSelected);
-                                    Fragment receiptFragment = new ReceiptFragment();
-                                    receiptFragment.setArguments(bundle);
-                                    mainActivity.changeFragment(receiptFragment, true);
-
-                                }
-                            }
-                        });
-                    }
-
-                }
-            });
-
-
         } else {
             Log.e(TAG, "No date and meal found!");
         }
@@ -139,23 +119,48 @@ public class FoodPickerFragment extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.select_menu)
+    void onMenuClicked(){
+        if (foodSelected != null) {
+            rootRef.child("foodhistory").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(dateToday).child(mealType).setValue(foodSelected.getId(), (databaseError, databaseReference) -> {
+                if (databaseError != null) {
+                    Toast.makeText(mainActivity, "Error in saving daily menu", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mainActivity, "Successfully saved!", Toast.LENGTH_SHORT).show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.BUNDLE_MEAL, foodSelected);
+                    Fragment receiptFragment = new ReceiptFragment();
+                    receiptFragment.setArguments(bundle);
+                    mainActivity.changeFragment(receiptFragment, true);
+
+                }
+            });
+        }
+
+    }
+
+    @OnClick(R.id.btn_share)
+    void onShareClicked(){
+        if(deepLink != null && !deepLink.equals(""))
+            startActivityForResult(new AppInviteHelper().appInviteTemplate(mainActivity, deepLink), REQUEST_INVITE);
+        else Toast.makeText(mainActivity, "Deeplink is empty", Toast.LENGTH_SHORT).show();
+    }
+
     public void populateMenu(List<Food> dailyFoodMenu, View view) {
 
-        dailyMenuList = (ListView) view.findViewById(R.id.listDailyMenu);
+        dailyMenuList = view.findViewById(R.id.listDailyMenu);
         CustomFoodAdapter adapter = new CustomFoodAdapter(mainActivity, R.layout.listset1, dailyFoodMenu);
         dailyMenuList.setAdapter(adapter);
 
         mProgressBar.setVisibility(ProgressBar.GONE);
 
 
-        dailyMenuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        dailyMenuList.setOnItemClickListener((adapterView, view1, i, l) -> {
 
-                foodSelected = (Food) adapterView.getAdapter().getItem(i);
-                System.out.println("ITEM SELECTED KEY: " + foodSelected.getId());
-                System.out.println("ITEM SELECTED NAME: " + foodSelected.getName());
-            }
+            foodSelected = (Food) adapterView.getAdapter().getItem(i);
+            System.out.println("ITEM SELECTED KEY: " + foodSelected.getId());
+            System.out.println("ITEM SELECTED NAME: " + foodSelected.getName());
         });
 
 
@@ -178,15 +183,15 @@ class CustomFoodAdapter extends ArrayAdapter<Food> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        FoodHolder holder = null;
+        FoodHolder holder;
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new FoodHolder();
-            holder.foodImage = (ImageView) row.findViewById(R.id.foodImg);
-            holder.foodName = (TextView) row.findViewById(R.id.foodName);
+            holder.foodImage = row.findViewById(R.id.foodImg);
+            holder.foodName = row.findViewById(R.id.foodName);
 
             row.setTag(holder);
         } else {
